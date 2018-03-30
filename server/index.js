@@ -14,6 +14,45 @@ const app = express();
 // If you need a backend, e.g. an API, add your custom backend-specific middleware here
 // app.use('/api', myApi);
 
+const movies = [
+  {
+    id: 1,
+    title: 'Pacific Rim: Uprising (2018)',
+    desc: 'Jake Pentecost, son of Stacker Pentecost, reunites with Mako Mori to lead a new generation of Jaeger pilots, including rival Lambert and 15-year-old hacker Amara, against a new Kaiju threat.',
+    director: 'Steven S. DeKnight',
+    image: 'https://ia.media-imdb.com/images/M/MV5BMjI3Nzg0MTM5NF5BMl5BanBnXkFtZTgwOTE2MTgwNTM@._V1_UX182_CR0,0,182,268_AL_.jpg',
+    movielink: 'https://www.imdb.com/title/tt2557478/',
+  },
+  {
+    id: 2,
+    title: 'Tomb Raider (2018)',
+    desc: 'Lara Croft, the fiercely independent daughter of a missing adventurer, must push herself beyond her limits when she finds herself on the island where her father disappeared.',
+    director: 'Roar Uthaug',
+    image: 'https://ia.media-imdb.com/images/M/MV5BOTY4NDcyZGQtYmVlNy00ODgwLTljYTMtYzQ2OTE3NDhjODMwXkEyXkFqcGdeQXVyNzYzODM3Mzg@._V1_UX182_CR0,0,182,268_AL_.jpg',
+    movielink: 'https://www.imdb.com/title/tt1365519/',
+  },
+  {
+    id: 3,
+    title: 'Black Panther (2018)',
+    desc: 'Challa, the King of Wakanda, rises to the throne in the isolated, technologically advanced African nation, but his claim is challenged by a vengeful outsider who was a childhood victim of T\'Challa\'s father\'s mistake.',
+    director: 'Ryan Coogler',
+    image: 'https://ia.media-imdb.com/images/M/MV5BMTg1MTY2MjYzNV5BMl5BanBnXkFtZTgwMTc4NTMwNDI@._V1_UX182_CR0,0,182,268_AL_.jpg',
+    movielink: 'https://www.imdb.com/title/tt1825683/',
+  },
+];
+
+app.get('/api/movies', ((req, res) => {
+  const allMovies = movies.map((movie) => ({
+    id: movie.id,
+    name: movie.title,
+  }));
+  res.json(allMovies);
+}));
+
+app.get('/api/movies/:id', ((req, res) => {
+  res.json(movies.filter((movie) => movie.id === parseInt(req.params.id, 10)));
+}));
+
 // In production we need to pass these values in instead of relying on webpack
 setup(app, {
   outputPath: resolve(process.cwd(), 'build'),
