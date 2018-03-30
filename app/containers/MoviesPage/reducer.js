@@ -9,24 +9,15 @@
  * case YOUR_ACTION_CONSTANT:
  *   return state.set('yourStateVariable', true);
  */
-import { fromJS } from 'immutable';
 
 import {
-  CHANGE_USERNAME,
-} from './constants';
+  RECEIVE_API_DATA
+} from './actions';
 
-// The initial state of the App
-const initialState = fromJS({
-  username: '',
-});
-
-function moviesReducer(state = initialState, action) {
+function moviesReducer(state = {}, { type, data }) {
   switch (action.type) {
-    case CHANGE_USERNAME:
-
-      // Delete prefixed '@' from the github username
-      return state
-        .set('username', action.name.replace(/@/gi, ''));
+    case RECEIVE_API_DATA:
+      return data;
     default:
       return state;
   }

@@ -13,53 +13,26 @@ import List from './List';
 import ListItem from './ListItem';
 import ListItemTitle from './ListItemTitle';
 
-export default class MoviesPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
-  // Since state and props are static,
-  // there's no need to re-render this component
-  shouldComponentUpdate() {
-    return false;
-  }
+import { requestApiData } from './actions';
 
-  constructor(props) {
-    super(props);
+class MoviesPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
-    this.state = {
-      movies: []
-    };
-  }  
-  fetchFirst(url) {
-    var that = this;
-    if (url) {
-      fetch('http://localhost:3000/api/movies').then(function (response) {
-        return response.json();
-      }).then(function (result) {
-
-        console.log(result);
-
-        that.setState({ movies: result });
-
-        console.log(that.state.movies);
-	//document.getElementById('res').innerHTML = result[0].title;
-	console.log();
-	var lstmovies = [];
-	result.map(elem => console.log(<li>{elem.title}</li>.props.children));
-	result.map(elem => lstmovies += <li>{elem.title}</li>.props.children);
-	document.getElementById('res').innerHTML = lstmovies;
-	//console.log('so:' + );
-	//console.log('so:' + 
-	//Array.from(result.v	alues())
-		//Array.from(result.keys()));
-	//document.getElementById('res').innerHTML = so;
-
-      });
-    }
-  }  
   componentDidMount() {
-
-      this.fetchFirst("reactjs");
-
+      this.props.requestApiData();
+      console.log(this.props.data);
   }
+
+  movies = (x, i) =>
+    <div key={x.id}>
+      <h1>{x.title}</h1>
+      <h1>{x.director}</h1>
+      <img src={x.image}/>
+      <h1>{x.desc}</h1>
+      <h1>{x.movielink}</h1>
+    </div>;
 
   render() {
     return (
@@ -82,14 +55,21 @@ export default class MoviesPage extends React.Component { // eslint-disable-line
           </ListItem>
         </List>
 	<div id="res">
-	  <ul>
-            {this.state.movies.map(movies =>
-              <li key={movies.id}>{movies.title}</li>
-			//<img src={movies.movielink} />
-            )}
-          </ul>
+	 <ul>
+      {(this.props.data || []).map(this.movies)}
+    </ul>
 	</div>
       </div>
     );
   }
 }
+
+const mapStateToProps = state => ({ data: state.data});
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ requestApiData }, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(MoviesPage);
+
+
+
