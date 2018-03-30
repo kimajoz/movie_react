@@ -44,7 +44,7 @@ const movies = [
 app.get('/api/movies', ((req, res) => {
   const allMovies = movies.map((movie) => ({
     id: movie.id,
-    name: movie.title,
+    title: movie.title,
   }));
   res.json(allMovies);
 }));
