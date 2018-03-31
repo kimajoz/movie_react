@@ -16,7 +16,7 @@ const app = express();
 
 const movies = [
   {
-    id: 1,
+    id: 0,
     title: 'Pacific Rim: Uprising (2018)',
     desc: 'Jake Pentecost, son of Stacker Pentecost, reunites with Mako Mori to lead a new generation of Jaeger pilots, including rival Lambert and 15-year-old hacker Amara, against a new Kaiju threat.',
     director: 'Steven S. DeKnight',
@@ -24,7 +24,7 @@ const movies = [
     movielink: 'https://www.imdb.com/title/tt2557478/',
   },
   {
-    id: 2,
+    id: 1,
     title: 'Tomb Raider (2018)',
     desc: 'Lara Croft, the fiercely independent daughter of a missing adventurer, must push herself beyond her limits when she finds herself on the island where her father disappeared.',
     director: 'Roar Uthaug',
@@ -32,7 +32,7 @@ const movies = [
     movielink: 'https://www.imdb.com/title/tt1365519/',
   },
   {
-    id: 3,
+    id: 2,
     title: 'Black Panther (2018)',
     desc: 'Challa, the King of Wakanda, rises to the throne in the isolated, technologically advanced African nation, but his claim is challenged by a vengeful outsider who was a childhood victim of T\'Challa\'s father\'s mistake.',
     director: 'Ryan Coogler',
@@ -44,7 +44,11 @@ const movies = [
 app.get('/api/movies', ((req, res) => {
   const allMovies = movies.map((movie) => ({
     id: movie.id,
+    director: movie.director,
     title: movie.title,
+    image: movie.image,
+    movielink: movie.movielink,
+    desc: movie.desc,
   }));
   res.json(allMovies);
 }));

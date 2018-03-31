@@ -28,37 +28,76 @@ export default class MoviesPage extends React.Component { // eslint-disable-line
       movies: []
     };
   }  
+  
+  fetchMovieId(id) {
+    var that = this;
+   
+    function logArrayElements(element, index, array) {
+      //console.log('i[' + index + '] = ' + element);
+      //element.forEach(logArrayElements);
+	Object.keys(element).forEach(function(key) {
+  		//var value = element[key];
+  		//console.log(element[key]);
+		//movie += "<li>{element['id']}</li>";
+		var movie = [];
+		movie += '<li>';
+		//movie += [{element['title']}];
+		movie += '</li>';
+  		console.log('id:' + element['id']);
+  		console.log('title:' + element['title']);
+  		console.log('movie:' + movie);
+	});
+	document.getElementById('res').innerHTML = movie;
+    }
+
+   if (id) {
+      fetch('http://localhost:3000/api/movies:' + id).then(function (response) {
+        return response.json();
+      }).then(function (result) {
+        console.log(result);
+        that.setState({ movies: result });
+        console.log(that.state.movies);
+	//console.log(result.forEach(logArrayElements));
+      });
+    }
+  }
+
   fetchFirst(url) {
     var that = this;
+
+    var movie = [];
+    function printMovieId(element, index, array) {
+      //console.log('i[' + index + '] = ' + element);
+        movie[index] = '<ul>';
+	movie[index] += '<div><h2 id=id_' + element['id'] + '>' + element['title'] + '</h2> by <a href=\'#\' class=director>' + element['director'] + '</a></div>';
+	movie[index] += '<img src=' + element['image'] + '/>';
+	movie[index] += '<div><a href=' + element['movielink'] + '>' + element['movielink'] + '</a></div>';
+	movie[index] += '<p id=desc>' + element['desc'] + '</p>';
+	Object.keys(element).forEach(function(key) {
+  		//var value = element[key];
+  		//console.log(element[key]);
+		movie[index] += '<li>' + element[key] + '</li>';
+		//movie[index] += '<li>' + element['id'] + '</li>';
+		//movie[index] += '<li>' + element['title'] + '</li>';
+  		//console.log('id:' + element['id']);
+  		//console.log('title:' + element['title']);
+	});
+	movie[index] += '</ul>';
+  	console.log('movie:' + movie);
+	document.getElementById('res').innerHTML = movie;
+    }
+    
     if (url) {
       fetch('http://localhost:3000/api/movies').then(function (response) {
         return response.json();
       }).then(function (result) {
-
-        console.log(result);
-
-        that.setState({ movies: result });
-
-        console.log(that.state.movies);
-	//document.getElementById('res').innerHTML = result[0].title;
-	console.log();
-	var lstmovies = [];
-	result.map(elem => console.log(<li>{elem.title}</li>.props.children));
-	result.map(elem => lstmovies += <li>{elem.title}</li>.props.children);
-	document.getElementById('res').innerHTML = lstmovies;
-	//console.log('so:' + );
-	//console.log('so:' + 
-	//Array.from(result.v	alues())
-		//Array.from(result.keys()));
-	//document.getElementById('res').innerHTML = so;
-
+	result.forEach(printMovieId);
       });
     }
   }  
   componentDidMount() {
-
       this.fetchFirst("reactjs");
-
+      //this.fetchMovieId(1);
   }
 
   render() {
