@@ -31,9 +31,9 @@ export default class MoviesPage extends React.Component {
   fetchFirst(url) {
     const movie = [];
     function printMovieId(element, index) {
-      movie[index] = '<ul>';
+      movie[index] = '<ul id=allmovies>';
       movie[index] += `<div><h2 id=id_${element.id}>${element.title}</h2> by <a href=# class=director>${element.director}</a></div>`;
-      movie[index] += `<a href=# id=${element.id}><img src=${element.image}/>`;
+      movie[index] += `<a href=# dangerouslySetInnerHTML={...element} id=a_${element.id} alt=${element.title}><img src=${element.image} alt=${element.title}/>`;
       movie[index] += `<div><a href=${element.movielink}>${element.movielink}</a></div>`;
       movie[index] += `<p id=desc>${element.desc}</p>`;
       movie[index] += '</ul>';
