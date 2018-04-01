@@ -32,20 +32,18 @@ export default class MoviesPage extends React.Component {
     const movie = [];
     function printMovieId(element, index) {
       movie[index] = '<ul>';
-      movie[index] += '<div><h2 id=id_' + element.id + '>' + element.title + '</h2> by <a href=\'#\' class=director>' + element.director + '</a></div>';
-      movie[index] += '<a href=# id=' + element.id + '><img src=' + element.image + '/>';
-      movie[index] += '<div><a href=' + element.movielink + '>' + element.movielink + '</a></div>';
-      movie[index] += '<p id=desc>' + element.desc + '</p>';
+      movie[index] += `<div><h2 id=id_${element.id}>${element.title}</h2> by <a href=# class=director>${element.director}</a></div>`;
+      movie[index] += `<a href=# id=${element.id}><img src=${element.image}/>`;
+      movie[index] += `<div><a href=${element.movielink}>${element.movielink}</a></div>`;
+      movie[index] += `<p id=desc>${element.desc}</p>`;
       movie[index] += '</ul>';
       document.getElementById('res').innerHTML = movie;
     }
 
     if (url) {
-      fetch('http://localhost:3000/api/movies').then(function getresp(response) {
-        return response.json();
-      }).then(function forres(result) {
-        result.forEach(printMovieId);
-      });
+      fetch('http://localhost:3000/api/movies')
+        .then((response) => response.json())
+        .then((result) => result.forEach(printMovieId));
     }
   }
   render() {
