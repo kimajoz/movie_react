@@ -18,7 +18,7 @@ describe('<ul id="allmovies" />', () => {
   it('the movie list has Pacific Rim: Uprising (2018) on it', () => {
     const id = 'id_0';
     const renderedComponent = shallow(<h2 id={id} />);
-    expect(renderedComponent.textContent).toContain('Pacific Rim: Uprising (2018)');
+    expect(renderedComponent).toContain('Pacific Rim: Uprising (2018)');
   });
 
   it('should adopt a valid attribute src on img elem', () => {
