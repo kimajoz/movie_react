@@ -30,11 +30,10 @@ export default class MoviesPage extends React.Component {
     return true;
   }
   fetchFirst(url) {
-    var that = this;
     if (url) {
       fetch('http://localhost:3000/api/movies')
         .then((response) => response.json())
-        .then((result) => that.setState({ movies: result }));
+        .then((result) => this.setState({ movies: result }));
     }
   }
   render() {
@@ -57,17 +56,17 @@ export default class MoviesPage extends React.Component {
             </p>
           </ListItem>
         </List>
-	{ /*JSON.stringify(this.state.movies)*/ }
-	{ Array.from(this.state.movies.values()).map( (res) =>
-	 (<MovieSheet
-		id={res.id}
-		title={res.title}
-		director={res.director}
-		image={res.image}
-		movielink={res.movielink}
-		desc={res.desc}
-	/>)
-	) }
+        { /* JSON.stringify(this.state.movies) */ }
+        { Array.from(this.state.movies.values()).map((res) =>
+(<MovieSheet
+  id={res.id}
+  title={res.title}
+  desc={res.desc}
+  director={res.director}
+  image={res.image}
+  movielink={res.movielink}
+/>)
+) }
       </div>
     );
   }
