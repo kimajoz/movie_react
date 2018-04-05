@@ -21,7 +21,11 @@ export default class MoviesPage extends React.Component {
 
     this.state = {
       movies: [],
+      count: 0,
+      len: 0,
     };
+    this.incrementCounter = this.updateCounter.bind(this, 1);
+    this.decrementCounter = this.updateCounter.bind(this, -1);
   }
   componentDidMount() {
     this.fetchFirst('firstload');
@@ -33,9 +37,17 @@ export default class MoviesPage extends React.Component {
     if (url) {
       fetch('http://localhost:3000/api/movies')
         .then((response) => response.json())
+        .then((result) => this.setState({ movies: result, len: result.length }));
+    }
+  }
+  fetchIdMovie(id) {
+    if (Number.isInteger(id)) {
+      fetch('http://localhost:3000/api/movies/' + id)
+        .then((response) => response.json())
         .then((result) => this.setState({ movies: result }));
     }
   }
+
   render() {
     return (
       <div>
@@ -57,8 +69,14 @@ export default class MoviesPage extends React.Component {
           </ListItem>
         </List>
         { /* JSON.stringify(this.state.movies) */ }
+	<div>
+                <div>{this.state.count}</div>
+                <input type='button' value='-' onClick={this.decrementCounter} />
+                <input type='button' value='+' onClick={this.incrementCounter} />
+	</div>
         { Array.from(this.state.movies.values()).map((res) =>
 (<MovieSheet
+  key={res.id}
   id={res.id}
   title={res.title}
   desc={res.desc}
@@ -69,5 +87,11 @@ export default class MoviesPage extends React.Component {
 ) }
       </div>
     );
+  }
+
+  updateCounter(count) {
+	let nc = this.state.count + count;  
+	if (nc >= 0 && nc < this.state.len)
+        	this.setState({count: nc}, () => this.fetchIdMovie(this.state.count));
   }
 }
